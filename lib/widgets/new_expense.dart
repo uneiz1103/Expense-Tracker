@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:expense_tracker/models/expense.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.onAddExpense});
+
+  final void Function(Expense expense) onAddExpense;
   @override
   State<NewExpense> createState() {
     return _NewExpenseState();
@@ -53,6 +55,14 @@ class _NewExpenseState extends State<NewExpense> {
       );
       return;
     }
+    widget.onAddExpense(
+      Expense(
+          title: _titleController.text,
+          amount: enteredAmount,
+          date: _selectedDate!,
+          category: _selectedCategory),
+    );
+    Navigator.pop(context);
   }
 
   @override
@@ -65,7 +75,7 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       child: Column(
         children: [
           TextField(
@@ -93,10 +103,12 @@ class _NewExpenseState extends State<NewExpense> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      _selectedDate == null
-                          ? 'No Date Selected '
-                          : formatter.format(_selectedDate!),
+                    FittedBox(
+                      child: Text(
+                        _selectedDate == null
+                            ? 'No Date selected'
+                            : formatter.format(_selectedDate!),
+                      ),
                     ),
                     IconButton(
                       onPressed: _presentDatePicker,
@@ -146,7 +158,7 @@ class _NewExpenseState extends State<NewExpense> {
                 //   print(_titleController.text);
                 //   print(_amountController.text);
                 // },
-                child: const Text('Save Title'),
+                child: const Text('Save'),
               )
             ],
           ),

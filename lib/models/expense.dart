@@ -11,6 +11,9 @@ enum Category {
   travel,
   lesiure,
   work,
+  groceries,
+  shopping,
+  makeup,
 }
 
 const categoryIcons = {
