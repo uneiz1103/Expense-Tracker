@@ -32,11 +32,11 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
-  void _showDialog() {
-    if (Platform.isIOS) {
-      showCupertinoDialog(
+  void showDialogbox() {
+    if (Platform.isAndroid) {
+      showDialog(
         context: context,
-        builder: (context) => CupertinoAlertDialog(
+        builder: (context) => AlertDialog(
           title: const Text('InvalidInput'),
           content: const Text(
               'please make sure valid title, amount, category, date was entered. '),
@@ -51,9 +51,9 @@ class _NewExpenseState extends State<NewExpense> {
         ),
       );
     } else {
-      showDialog(
+      showCupertinoDialog(
         context: context,
-        builder: (context) => AlertDialog(
+        builder: (context) => CupertinoAlertDialog(
           title: const Text('InvalidInput'),
           content: const Text(
               'please make sure valid title, amount, category, date was entered. '),
@@ -76,8 +76,7 @@ class _NewExpenseState extends State<NewExpense> {
     if (_titleController.text.trim().isEmpty ||
         amountIsInvalid ||
         _selectedDate == null) {
-      // print('enter title');
-      _showDialog();
+      showDialogbox();
       return;
     }
     widget.onAddExpense(
